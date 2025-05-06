@@ -1,79 +1,84 @@
-// selective_repeat_client.c
+// client.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-
-#define TOTAL_PACKETS 10
+#include <sys/time.h>
+#include <stdbool.h>
+#define PORT 9000
+#define MAX 1024
 #define WINDOW_SIZE 4
-#define TIMEOUT_LIMIT 3
+#define TOTAL_PACKETS 10
+#define TIMEOUT_SEC 2
 
 typedef struct {
     int seq;
-    int acked;
-    int sent_count;
+    bool acked;
+    char data[MAX];
 } Packet;
 
 int main() {
-    int sock_fd;
+    int sock;
     struct sockaddr_in server_addr;
-    char buffer[1024];
-    Packet window[TOTAL_PACKETS];
+    char buffer[MAX];
+    Packet packets[TOTAL_PACKETS];
 
-    if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        perror("Socket");
-        return 1;
-    }
-
+    sock = socket(AF_INET, SOCK_STREAM, 0);
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(8888);
-    inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    if (connect(sock_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-        perror("Connect");
-        return 1;
-    }
+    connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr));
+    printf("Connected to server.\n");
 
-    // Initialize packets
+    // Prepare packets
     for (int i = 0; i < TOTAL_PACKETS; i++) {
-        window[i].seq = i;
-        window[i].acked = 0;
-        window[i].sent_count = 0;
+        packets[i].seq = i;
+        packets[i].acked = false;
+        sprintf(packets[i].data, "SEQ:%d", i);
     }
 
     int base = 0;
+    fd_set readfds;
+    struct timeval timeout;
+
     while (base < TOTAL_PACKETS) {
-        // Send packets within window
+        // Send all packets in the window that haven’t been ACKed
         for (int i = base; i < base + WINDOW_SIZE && i < TOTAL_PACKETS; i++) {
-            if (!window[i].acked && window[i].sent_count < TIMEOUT_LIMIT) {
-                snprintf(buffer, sizeof(buffer), "%d", window[i].seq);
-                send(sock_fd, buffer, strlen(buffer), 0);
-                printf("Sent packet: %d\n", window[i].seq);
-                window[i].sent_count++;
-                usleep(100000); // simulate delay
+            if (!packets[i].acked) {
+                send(sock, packets[i].data, strlen(packets[i].data), 0);
+                printf("Sent packet: %s\n", packets[i].data);
             }
         }
 
-        // Receive ACK
-        memset(buffer, 0, sizeof(buffer));
-        int len = recv(sock_fd, buffer, sizeof(buffer), 0);
-        if (len > 0) {
-            int ack;
-            sscanf(buffer, "%d", &ack);
-            printf("Received ACK: %d\n", ack);
-            if (ack >= base && ack < TOTAL_PACKETS) {
-                window[ack].acked = 1;
-                // Slide base if possible
-                while (window[base].acked && base < TOTAL_PACKETS) {
+        // Wait for ACKs with timeout
+        FD_ZERO(&readfds);
+        FD_SET(sock, &readfds);
+        timeout.tv_sec = TIMEOUT_SEC;
+        timeout.tv_usec = 0;
+
+        int activity = select(sock + 1, &readfds, NULL, NULL, &timeout);
+        if (activity > 0 && FD_ISSET(sock, &readfds)) {
+            memset(buffer, 0, sizeof(buffer));
+            recv(sock, buffer, sizeof(buffer), 0);
+
+            int ack_seq;
+            if (sscanf(buffer, "ACK:%d", &ack_seq) == 1) {
+                packets[ack_seq].acked = true;
+                printf("Received ACK: %d\n", ack_seq);
+
+                // Slide window
+                while (base < TOTAL_PACKETS && packets[base].acked)
                     base++;
-                }
             }
+        } else {
+            printf("Timeout: Resending unacknowledged packets in window...\n");
         }
     }
 
-    printf("All packets sent and acknowledged!\n");
-    close(sock_fd);
+    send(sock, "END", 3, 0);
+    close(sock);
     return 0;
 }
 

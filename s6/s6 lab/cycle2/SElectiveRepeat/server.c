@@ -1,61 +1,63 @@
-// selective_repeat_server.c
+// server.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <arpa/inet.h>
 #include <time.h>
-
-#define TOTAL_PACKETS 10
-#define WINDOW_SIZE 4
+#include <arpa/inet.h>
+#define PORT 9000
+#define MAX 1024
 
 int main() {
-    int sock_fd, client_fd;
+    int server_sock, client_sock;
     struct sockaddr_in server_addr, client_addr;
-    socklen_t addr_len = sizeof(client_addr);
-    char buffer[1024];
-    int received[TOTAL_PACKETS] = {0}; // store which packets we've received
+    socklen_t addr_size = sizeof(client_addr);
+    char buffer[MAX];
+    int expected_seq = 0;
 
-    srand(time(NULL)); // for simulating loss
-
-    sock_fd = socket(AF_INET, SOCK_STREAM, 0);
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    server_addr.sin_port = htons(8888);
-
-    bind(sock_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
-    listen(sock_fd, 5);
-    client_fd = accept(sock_fd, (struct sockaddr*)&client_addr, &addr_len);
-
-    while (1) {
-        memset(buffer, 0, sizeof(buffer));
-        int len = recv(client_fd, buffer, sizeof(buffer), 0);
-        if (len <= 0) break;
-
-        int seq;
-        sscanf(buffer, "%d", &seq);
-        printf("Received packet: %d\n", seq);
-
-        if (seq >= 0 && seq < TOTAL_PACKETS && !received[seq]) {
-            // Simulate 20% packet loss
-            if (rand() % 5 != 0) {
-                received[seq] = 1;
-                sprintf(buffer, "%d", seq);
-                send(client_fd, buffer, strlen(buffer), 0);
-                printf("Sent ACK: %d\n", seq);
-            } else {
-                printf("Simulated ACK loss for packet: %d\n", seq);
-            }
-        } else if (received[seq]) {
-            // Resend ACK if it's a duplicate
-            sprintf(buffer, "%d", seq);
-            send(client_fd, buffer, strlen(buffer), 0);
-            printf("Resent ACK for duplicate packet: %d\n", seq);
-        }
+    server_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_sock < 0) {
+        perror("Socket creation failed");
+        exit(1);
     }
 
-    close(client_fd);
-    close(sock_fd);
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(server_sock, (struct sockaddr*)&server_addr, sizeof(server_addr));
+    listen(server_sock, 5);
+    printf("Server listening on port %d...\n", PORT);
+
+    client_sock = accept(server_sock, (struct sockaddr*)&client_addr, &addr_size);
+    printf("Client connected.\n");
+
+    srand(time(NULL));
+    while (1) {
+        memset(buffer, 0, sizeof(buffer));
+        recv(client_sock, buffer, sizeof(buffer), 0);
+        if (strcmp(buffer, "END") == 0) break;
+
+        int seq;
+        sscanf(buffer, "SEQ:%d", &seq);
+
+        printf("Received packet: %s\n", buffer);
+
+        // Randomly drop some packets (simulate error/loss)
+        if (rand() % 4 == 0) {
+            printf("Simulating loss of packet SEQ:%d\n", seq);
+            continue;  // No ACK sent
+        }
+
+        // Send ACK
+        char ack[32];
+        sprintf(ack, "ACK:%d", seq);
+        send(client_sock, ack, strlen(ack), 0);
+        printf("Sent %s\n", ack);
+    }
+
+    close(client_sock);
+    close(server_sock);
     return 0;
 }
 
