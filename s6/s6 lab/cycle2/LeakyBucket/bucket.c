@@ -14,12 +14,13 @@ int main() {
       store = bsize;
       printf("Before outgoing, bucket size %d occupied out of %d\n", store, bsize);
     }
+    
     if (store > out) {
       store -= out;
     } else {
       store = 0;
     }
-    
+
     printf("After outgoing, bucket size %d occupied out of %d\n", store, bsize);
     n--;
   }
