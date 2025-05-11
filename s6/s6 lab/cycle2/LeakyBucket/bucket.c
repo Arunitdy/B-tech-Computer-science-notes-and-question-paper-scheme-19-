@@ -19,6 +19,7 @@ int main() {
     } else {
       store = 0;
     }
+    
     printf("After outgoing, bucket size %d occupied out of %d\n", store, bsize);
     n--;
   }
