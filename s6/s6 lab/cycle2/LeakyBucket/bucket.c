@@ -1,9 +1,11 @@
 #include <stdio.h>
 int main() {
   int n, bsize, in, out, store = 0;
+
   printf("Enter the bucket size, outgoing rate and number of inputs: ");
-  scanf("%d %d %d", &bsize, &out, &n);
   
+  scanf("%d %d %d", &bsize, &out, &n);
+
   while(n != 0) {
     printf("Enter the incoming packet size: ");
     scanf("%d", &in);
