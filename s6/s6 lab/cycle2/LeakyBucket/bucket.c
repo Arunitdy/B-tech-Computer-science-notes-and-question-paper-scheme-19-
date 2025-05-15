@@ -7,8 +7,10 @@ int main() {
   scanf("%d %d %d", &bsize, &out, &n);
 
   while(n != 0) {
+    
     printf("Enter the incoming packet size: ");
     scanf("%d", &in);
+
     if (in <= (bsize - store)) {
       store += in;
       printf("Before outgoing, bucket size %d occupied out of %d\n", store, bsize);
