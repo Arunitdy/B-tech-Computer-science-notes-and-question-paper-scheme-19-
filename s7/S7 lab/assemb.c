@@ -5,22 +5,27 @@
 void generateAssembly(char *lhs, char *op1, char *op, char *op2) {
    
     if (strcmp(op, "+") == 0) {
+        printf("\n addition \n");
         printf("MOV R0, %s\n", op1);
         printf("ADD R0,  %s\n", op2);
         printf("MOv %s, R0\n", lhs);
     } else if (strcmp(op, "-") == 0) {
+        printf("\n subtraction \n");
         printf("MOV R0, %s\n", op1);
         printf("SUB R0,  %s\n", op2);
         printf("MOv %s, R0\n", lhs);
     }  else if (strcmp(op, "*") == 0) {
+        printf("\n multiplication \n");
         printf("MOV R0, %s\n", op1);
         printf("MUL R0,  %s\n", op2);
         printf("MOv %s, R0\n", lhs);
     }  else if (strcmp(op, "/") == 0) {
+        printf("\n division \n");
         printf("MOV R0, %s\n", op1);
         printf("DIV R0,  %s\n", op2);
         printf("MOv %s, R0\n", lhs);
     } else if (strcmp(op, "") == 0 && strcmp(op2, "") == 0) {
+        printf("\n assignment \n");
         printf("MOV %s, %s\n", lhs, op1);
     } else {
         printf("error conversion");
