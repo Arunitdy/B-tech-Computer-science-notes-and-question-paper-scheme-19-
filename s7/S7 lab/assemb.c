@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
 
 void generateAssembly(char *lhs, char *op1, char *op, char *op2) {
    
