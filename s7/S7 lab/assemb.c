@@ -53,10 +53,8 @@ int main() {
         printf("\n%s\n", line);
         strcpy(lhs, ""); strcpy(op1, ""); strcpy(op, ""); strcpy(op2, "");
         if (sscanf(line, "%s = %s %s %s", lhs, op1, op, op2) == 4) {
-            printf("four");
             generateAssembly(lhs, op1, op, op2);
         } else if (sscanf(line, "%s = %s", lhs, op1) == 2) {
-            printf("two");
             generateAssembly(lhs, op1, "", "");
         } else {
             printf("Invalid line format: %s", line);
