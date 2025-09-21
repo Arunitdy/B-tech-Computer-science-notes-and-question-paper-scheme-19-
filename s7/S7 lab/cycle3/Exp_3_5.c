@@ -20,6 +20,7 @@ int precedence(char op) {
     return 0;
 }
 
+
 // Convert infix to postfix
 void infixToPostfix(char* infix, char* postfix) {
     int k = 0;
