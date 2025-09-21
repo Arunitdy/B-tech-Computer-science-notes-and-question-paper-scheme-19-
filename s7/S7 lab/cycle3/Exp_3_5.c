@@ -73,9 +73,15 @@ int main() {
 
     printf("Enter expression (e.g., a=b+c*d): ");
     scanf("%s", expr);
+    printf("\n %s \n", expr);
 
     lhs = expr[0];              // left-hand side variable
     strcpy(rhs, expr + 2);      // right-hand side expression
+
+    
+    printf("\n %s  \n", rhs);
+    
+    printf("\n %c  \n", lhs);
 
     infixToPostfix(rhs, postfix);
 
