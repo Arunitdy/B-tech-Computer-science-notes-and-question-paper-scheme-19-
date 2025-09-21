@@ -10,6 +10,12 @@ int tempCount = 1;
 // Stack for operators
 char stack[MAX];
 int top = -1;
+void dispaly() {
+    for (int i = 0; stack[i]; i++) {
+        printf("%c", stack[i]);
+    }
+    printf("\n");
+}
 
 void push(char c) { stack[++top] = c; }
 char pop() { return stack[top--]; }
@@ -39,6 +45,8 @@ void infixToPostfix(char* infix, char* postfix) {
                 postfix[k++] = pop();
             push(infix[i]);
         }
+        printf("\n %s    :  %s\n", postfix, infix);
+        dispaly();
     }
     while (top != -1) postfix[k++] = pop();
     postfix[k] = '\0';
