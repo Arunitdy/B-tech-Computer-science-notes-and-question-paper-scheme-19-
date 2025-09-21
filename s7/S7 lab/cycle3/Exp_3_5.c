@@ -6,6 +6,7 @@
 
 int tempCount = 1;
 
+
 // Stack for operators
 char stack[MAX];
 int top = -1;
