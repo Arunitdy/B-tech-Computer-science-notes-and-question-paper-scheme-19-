@@ -59,6 +59,7 @@ int main() {
             printf("Invalid line format: %s", line);
             continue;
         }
+        
         printf("--------------------------------------------------\n");
     }
     return 0;
