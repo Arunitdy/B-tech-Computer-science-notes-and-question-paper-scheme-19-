@@ -7,12 +7,12 @@ char stack[100];
 int top = -1;
 
 char pop() {return stack[top--];}
-void push(char c) {stack[top++] = c;}
+void push(char c) {stack[++top] = c;}
 char peek() {return stack[top];}
 
 int prefix(char c) {
-    if (c == '*' || c == '/') return 1;
-    if (c == '+' || c == '-') return 2;
+    if (c == '*' || c == '/') return 2;
+    if (c == '+' || c == '-') return 1;
     return 0;
 }
 
@@ -38,10 +38,31 @@ void postfixConv(char *rhs) {
 
         }
     }
-    while(top != -1 ) {
-        postfix[k++] = pop();
-    }
+    while(top != -1) postfix[k++] = pop();
+    
     printf("%s\n", postfix);
+}
+void TAC () {
+    char stack2[100][100];
+    int t2 = -1;
+    int t = 0;
+
+    for (int i = 0; postfix[i]; i++) {
+        if (!(postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '/' || postfix[i] == '*' || postfix[i] == '(' || postfix[i] == ')')) {
+            
+            sprintf(stack2[++t2], "%c",postfix[i]);
+        } else {
+            char a[10], b[10], c[10];
+            strcpy(a, stack2[t2--]); // right operand
+            strcpy(b, stack2[t2--]); // left operand
+
+            sprintf(c, "t%d", t++);
+
+            printf("%s = %s %c %s", c, b, postfix[i], a);
+            strcpy(stack2[++t2], c);
+
+        }
+    }
 }
 
 int main() {
@@ -55,6 +76,6 @@ int main() {
     printf("%c , %s\n", lhs, rhs);
 
    postfixConv(rhs);
-
+    TAC();
     return 0;
 }
