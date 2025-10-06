@@ -49,10 +49,15 @@ void infixToPostfix(char* infix, char* postfix) {
 // TAC + Assembly generation
 char generate(char a, char b, char op) {
     char res = tempVar++;
-    printf("%c = %c %c %c\n", res, a, op, b);  // TAC
-    if (strcmp(a, "") == 0) printf("null");
-    // Assembly
-    if (op == '+') {
+    printf("%c = %c %c %c\n", res, a, op, b);  //tac
+        if (a == '\0' && op == '-') { // Unary 
+            printf("%c = -%c\n", res, b);
+            printf("MOV AX, %c\n", b);
+            printf("NEG AX\n");
+            printf("MOV %c, AX\n", res);
+            return res;
+        }
+     if (op == '+') {
         printf("MOV AX, %c\n", a);
         printf("ADD AX, %c\n", b);
         printf("MOV %c, AX\n", res);
