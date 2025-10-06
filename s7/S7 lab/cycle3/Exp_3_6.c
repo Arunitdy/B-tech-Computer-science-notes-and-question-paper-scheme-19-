@@ -50,7 +50,7 @@ void infixToPostfix(char* infix, char* postfix) {
 char generate(char a, char b, char op) {
     char res = tempVar++;
     printf("%c = %c %c %c\n", res, a, op, b);  // TAC
-
+    if (strcmp(a, "") == 0) printf("null");
     // Assembly
     if (op == '+') {
         printf("MOV AX, %c\n", a);
