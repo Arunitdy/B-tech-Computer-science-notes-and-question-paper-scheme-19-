@@ -6,7 +6,7 @@ char input[100];
 int i = 0;
 
 void error();
-void match(char);
+void match();
 void E();
 void F();
 void T();
