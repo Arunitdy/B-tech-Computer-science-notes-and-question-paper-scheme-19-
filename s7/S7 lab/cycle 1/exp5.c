@@ -3,7 +3,7 @@
 int DFA[10][10],rep[10];
 int n,m,final[10];
 int mark[10][10]={0};
-void accept(){
+void accept () {
     int t1,t2;
     printf("enter the number of states in DFA :");
     scanf("%d",&n);
@@ -16,15 +16,15 @@ void accept(){
 
     
     printf("enter the final states");
-    while(t1--){
+    while (t1--) {
         scanf("%d",&t2);
         final[t2]=1;
     }
 
     printf("enter the transitions\n :");
     
-    for(int i=0;i<n;i++){
-        for(int a=0;a<m;a++){
+    for (int i=0;i<n;i++) {
+        for (int a=0;a<m;a++) {
             printf("transi(%d,%d)-> : ",i,a);
             scanf("%d",&DFA[i][a]);
         }
@@ -32,11 +32,11 @@ void accept(){
     
 }
 
-void fillmark(){
+void fillmark() {
 
-for(int i=0;i<n;i++){
-    for(int j=0;j<i;j++){
-        if(final[i]!=final[j]){
+for (int i=0;i<n;i++) {
+    for (int j=0;j<i;j++) {
+        if (final[i]!=final[j]) {
             mark[i][j]=1;
         }
     }
@@ -45,18 +45,18 @@ for(int i=0;i<n;i++){
 
 
 int change=1;
-while(change){
+while (change) {
     change=0;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<i;j++){
-            if(!mark[i][j]){
-                for(int k=0;k<m;k++){
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<i;j++) {
+            if (!mark[i][j]) {
+                for (int k=0;k<m;k++) {
                     int a=DFA[i][k];
                     int b=DFA[j][k];
 
-                    if(a==b) continue;
-                    if(a<b){int t=a;a=b;b=t;}
-                    if(mark[a][b]==1){
+                    if (a==b) continue;
+                    if (a<b) {int t=a;a=b;b=t;}
+                    if (mark[a][b]==1) {
                         mark[i][j]=1;
                         change=1;
                         break;
@@ -79,10 +79,10 @@ printf("Equivalent states:\n");
 }
 
 void newtrans(){
-    for(int i=0;i<n;i++) rep[i]=i;
-    for(int i=0;i<n;i++){
-        for(int j=0;j<i;j++){
-            if(mark[i][j]!=1){
+    for (int i=0;i<n;i++) rep[i]=i;
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<i;j++) {
+            if (mark[i][j]!=1) {
                 rep[i]=rep[j];
             }
         }
