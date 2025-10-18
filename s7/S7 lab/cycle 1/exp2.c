@@ -61,11 +61,12 @@ void prin(){
         printf("}\n");
     }
 }
-int main(){
 
+int main() {
+    +
     accept();
     closure();
     prin();
-
+    
     return 0;
 }
