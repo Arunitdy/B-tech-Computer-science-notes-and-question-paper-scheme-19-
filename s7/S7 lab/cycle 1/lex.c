@@ -77,21 +77,21 @@ void process(char *word){
     
 }
 void lexit(){
-    FILE *fp= fopen("tem.txt","r");
+    FILE *fp = fopen("tem.txt","r");
 
-    if(fp==NULL){
+    if(fp == NULL){
         printf("invalid file");
         return;
     }
 
     char line[250];
-    char *word=NULL;
+    char *word = NULL;
 
     while(fgets(line,sizeof(line),fp)){
         // puts(line);
         word=strtok(line," ");
-        while(word!=NULL){
-            if(strcmp(word,"//")==0||strcmp(word," ")==0)
+        while(word! = NULL){
+            if(strcmp(word,"//") == 0||strcmp(word," ") == 0)
                 break;
             process(word);
             word=strtok(NULL," ");

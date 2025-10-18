@@ -8,7 +8,7 @@ int n,count;
 struct closs{
     int count;
     int closure[10];
-}element[10];
+} element[10];
 
 void accept(){
     printf("enter the number of states :");
@@ -25,10 +25,9 @@ void accept(){
         scanf("%d %d %d",&a,&b,&c);
         NFA[a][c]=b;
     }
-
 }
 
-void findclose(int s){
+void findclose (int s) {
     vis[s]=1;
     close[count++]=s;
     for(int i=0;i<n;i++){
@@ -36,9 +35,10 @@ void findclose(int s){
             findclose(i);
     }
 }
-void closure(){
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++)
+
+void closure() {
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<n;j++)
             vis[j]=0;
         count=0;
 
