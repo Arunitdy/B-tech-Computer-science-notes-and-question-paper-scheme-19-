@@ -9,19 +9,14 @@ int isOperator(char *word){
     for(int i=0;i<len;i++)
         if(strcmp(word,oper[i])==0)
             return 1;
-
     return 0;
-        
-    
 }
 
 int isKeyWord(char *word){
-     char *oper[]={"int","main","long","printf","scanf","if","else","for","return","while","do"};
-
+    char *oper[]={"int","main","long","printf","scanf","if","else","for","return","while","do"};
     for(int i=0;i<11;i++)
         if(strcmp(word,oper[i])==0)
             return 1;
-
     return 0;
 }
 
@@ -35,6 +30,7 @@ int isSymbol(char *word){
 
     return 0;
 }
+
 int isInteger(char *word){
 
     char ch=' ';
@@ -90,7 +86,7 @@ void lexit(){
     while(fgets(line,sizeof(line),fp)){
         // puts(line);
         word=strtok(line," ");
-        while(word! = NULL){
+        while(word != NULL){
             if(strcmp(word,"//") == 0||strcmp(word," ") == 0)
                 break;
             process(word);
