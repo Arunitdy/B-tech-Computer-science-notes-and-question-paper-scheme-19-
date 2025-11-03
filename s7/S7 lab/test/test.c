@@ -2,8 +2,9 @@
 #include <sdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 int isOperator (char *word) {
-    
+
 }
 
 int isIdentifir(char *word) {
