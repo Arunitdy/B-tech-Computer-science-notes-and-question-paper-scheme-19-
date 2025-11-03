@@ -21,7 +21,7 @@ int isKeyWord(char *word){
 }
 
 int isSymbol(char *word){
-     char *oper[]={";","%%","(",")","{","}","","","","","","","",""};
+    char *oper[]={";","%%","(",")","{","}","","","","","","","",""};
     int len=sizeof(oper)/sizeof(oper[0]);
 
     for(int i=0;i<len;i++)
@@ -31,17 +31,17 @@ int isSymbol(char *word){
     return 0;
 }
 
-int isInteger(char *word){
+int isInteger(char *word) {
 
     char ch=' ';
-    for(int i=0;(ch=word[i])!='\0';i++){
+    for (int i=0;(ch=word[i])!='\0';i++) {
         if(ch>='0' && ch<='9')
             return 1;
     }
     return 0;
 }
 
-int isIdentifier(char *word){
+int isIdentifier(char *word) {
     if(!(word[0]=='_' || (word[0]>='A' && word[0]<='z')))
         return 0;
     for(int i=1;word[i]!='\0';i++)
@@ -67,15 +67,12 @@ void process(char *word){
         word[strcspn(word,"\n")]='\0'; 
         printf("< %s , Invalid >\n",word);
     }
-        
-
-        
-    
 }
-void lexit(){
+
+void lexit() {
     FILE *fp = fopen("tem.txt","r");
 
-    if(fp == NULL){
+    if (fp == NULL) {
         printf("invalid file");
         return;
     }
@@ -83,18 +80,20 @@ void lexit(){
     char line[250];
     char *word = NULL;
 
-    while(fgets(line,sizeof(line),fp)){
+    while(fgets(line,sizeof(line),fp)) {
         // puts(line);
-        word=strtok(line," ");
-        while(word != NULL){
-            if(strcmp(word,"//") == 0||strcmp(word," ") == 0)
+        printf("\n%s\n", line);
+        word = strtok(line," ");
+        while (word != NULL) {
+            if (strcmp(word,"//") == 0 || strcmp(word," ") == 0)
                 break;
+            printf("\n%s\n", word);
             process(word);
-            word=strtok(NULL," ");
+            word = strtok(NULL," ");
         }
     }
-
 }
+
 int main(){
     printf("hello\n");
     lexit();
