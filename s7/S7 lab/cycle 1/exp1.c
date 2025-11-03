@@ -4,53 +4,60 @@
 #include <ctype.h>
 
 int isOperator(char *word){
+    char *op[] = {"+", "-", "/", "*", "||", "&&", "^", "%", "<", ">", "!=", "==", ">=", "<="};
+    int len = sizeof(op) / sizeof(op[0]);
 
-    char *oper[]={"+","-","*","/","%%","=","<",">","!=","<=",">=","&","|"};
-    int len=sizeof(oper)/sizeof(oper[0]);
-
-    for(int i=0;i<len;i++)
-        if(strcmp(word,oper[i])==0)
-            return 1;
-    return 0;
-}
-
-int isKeyWord(char *word){
-    char *oper[]={"int","main","long","printf","scanf","if","else","for","return","while","do"};
-    for(int i=0;i<11;i++)
-        if(strcmp(word,oper[i])==0)
-            return 1;
-    return 0;
-}
-
-int isSymbol(char *word){
-    char *oper[]={";","%%","(",")","{","}","","","","","","","",""};
-    int len=sizeof(oper)/sizeof(oper[0]);
-
-    for(int i=0;i<len;i++)
-        if(strcmp(word,oper[i])==0)
-            return 1;
-
-    return 0;
-}
-
-int isInteger(char *word) {
-
-    char ch=' ';
-    for (int i=0;(ch=word[i])!='\0';i++) {
-        if(ch>='0' && ch<='9')
+    for (int i = 0; i < len; i++) {
+        if (strcmp(word, op[i]) == 0)
             return 1;
     }
     return 0;
 }
 
-int isIdentifier(char *word) {
-    if(!(word[0]=='_' || (word[0]>='A' && word[0]<='z')))
-        return 0;
-    for(int i=1;word[i]!='\0';i++)
-        if(!(word[i]=='_' || (word[i]>'A' && word[i]<'z') || (word[i]>'0' && word[i]<'9')))
+int isKeyWord(char *word) {
+    char *keywords[] = {
+        "int", "main", "long", "printf", "scanf",
+        "if", "else", "for", "return", "while", "do"
+    };
+    int len = sizeof(keywords) / sizeof(keywords[0]);
+
+    for (int i = 0; i < len; i++) {
+        if (strcmp(word, keywords[i]) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+
+int isSymbol(char *word) {
+    char *symbols[] = {";", "%", "(", ")", "{", "}", "[", "]", ",", ".", ":"};
+    int len = sizeof(symbols) / sizeof(symbols[0]);
+
+    for (int i = 0; i < len; i++) {
+        if (strcmp(word, symbols[i]) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+int isInteger(char *word) {
+    for (int i = 0; word[i] != '\0'; i++) {
+        if (!isdigit(word[i]))
             return 0;
+    }
     return 1;
-    
+}
+
+
+int isIdentifier(char *word) {
+    if (!(isalpha(word[0]) || word[0] == '_')) return 0;
+
+    for (int i = 1; word[i] != '\0'; i++) {
+        if (!(isalnum(word[i]) || word[i] == '_'))
+            return 0;
+    }
+
+    return 1;
 }
 
 void process(char *word){
@@ -72,28 +79,20 @@ void process(char *word){
 }
 
 void lexit() {
-    FILE *fp = fopen("tem.txt","r");
-
-    if (fp == NULL) {
-        printf("invalid file");
-        return;
-    }
-
-    char line[250];
-    char *word = NULL;
-
-    while(fgets(line,sizeof(line),fp)) {
-        // puts(line);
-        printf("\n%s\n", line);
-        word = strtok(line," ");
+   FILE *f1 = fopen("tem.txt", "r");
+   if (f1 == NULL) return;
+   
+   char line[250];
+   char *word;
+   while (fgets(line, sizeof(line), f1)) {
+        word = strtok(line, " ");
         while (word != NULL) {
-            if (strcmp(word,"//") == 0 || strcmp(word," ") == 0)
-                break;
-            printf("\n%s\n", word);
+            if (strcmp(word, "//") == 0) break;
             process(word);
-            word = strtok(NULL," ");
+            word = strtok(NULL, " ");
         }
-    }
+   }
+   fclose(f1);
 }
 
 int main(){

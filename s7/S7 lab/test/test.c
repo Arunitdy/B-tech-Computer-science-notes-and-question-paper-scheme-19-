@@ -94,12 +94,12 @@ void lex() {
     char line[300];
     while (fgets(line, sizeof(line), fp)) {
         line[strcspn(line, "\n")] = '\0'; // Remove newline
-        char *word = strtok(line, " \t"); // Tokenize by space or tab
+        char *word = strtok(line, "\t"); // Tokenize by space or tab
         while (word != NULL) {
             if (strcmp(word, "//") == 0) // Stop at comments
                 break;
             process(word);
-            word = strtok(NULL, " \t");
+            word = strtok(NULL, "\t");
         }
     }
 
