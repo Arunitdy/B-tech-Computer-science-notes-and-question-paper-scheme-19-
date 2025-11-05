@@ -6,7 +6,7 @@
 int NFA[N][M][N],DFA[1<<N][M],vis[1<<N],final[N];
 
 int n,m,start;
-void accept(){
+void accept() {
     printf("enter the number of states :");
     scanf("%d",&n);
 
@@ -87,6 +87,7 @@ void disp(){
         }
     }
 }
+
 int main(){
 
     accept();
