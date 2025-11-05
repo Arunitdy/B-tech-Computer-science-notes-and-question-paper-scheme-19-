@@ -4,13 +4,12 @@ int NFA[10][10][10],newNFA[10][10][10],epsi[10][10];
 
 int vis[10],close[10],count,n,m;
 
-struct meyamo{
+struct meyamo {
     int count;
     int closure[10];
-}element[10];
+} element[10];
 
-void accept(){
-
+void accept() {
     printf("enter the number of states :");
     scanf("%d",&n);
 
@@ -21,18 +20,20 @@ void accept(){
     scanf("%d",&t1);
 
     printf("enter the transitions in the form from - sym -to(-1 for epsilon)\n");
-    while(t1--){
+    while(t1--) {
         scanf("%d %d %d",&from,&sym,&to);
-        if(sym==-1)
-            epsi[from][to]=1;
-        else NFA[from][sym][to]=1;
+        if (sym == -1)
+            epsi[from][to] = 1;
+        else 
+            NFA[from][sym][to] = 1;
     }
 }
-void DFS(int s){
-    vis[s]=1;
-    close[count++]=s;
-    for(int i=0;i<n;i++){
-        if(epsi[s][i]==1 && !vis[i])
+
+void DFS(int s) {
+    vis[s] = 1;
+    close[count++] = s;
+    for (int i = 0; i < n; i++) {
+        if(epsi[s][i] == 1 && !vis[i])
             DFS(i);
         
     }
@@ -61,7 +62,6 @@ void closure(){
 }
 
 void conv(){
-
     for(int s=0;s<n;s++){
         for(int a=0;a<m;a++){
             for(int i=0;i<element[s].count;i++){
