@@ -44,7 +44,7 @@ void infixToPostfix(char* infix, char* postfix) {
             while (top != -1 && precedence(peek()) >= precedence(infix[i]))
                 postfix[k++] = pop();
             push(infix[i]);
-        }
+        }  
         printf("\n %s    :  %s\n", postfix, infix);
         dispaly();
     }

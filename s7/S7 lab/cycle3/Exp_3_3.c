@@ -4,6 +4,7 @@ char input[10];
 char grammar[10][10];
 int n,top = -1, ip = 0;
 char stack[10];
+
 void push(char c)
 {
 	top+=1;
@@ -57,8 +58,7 @@ void reduce() {
 }
 
 
-int main()
-{
+int main() {
 	int i;
 	printf("Enter no of production");
 	scanf("%d",&n);
@@ -68,7 +68,7 @@ int main()
 	printf("Enter the input string");
 	scanf("%s",input);
 	printf("\nStack\tInput\tAction\n");
-	while(ip<strlen(input))
+	while(ip < strlen(input))
 	{
 		push(input[ip]);
 		ip++;

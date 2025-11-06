@@ -1,106 +1,95 @@
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
-int n, m;
-int DFA[10][10], final[10], rep[10];
-int mark[10][10] = {0};
 
-void accept () {
-    int t1,t2;
+#define MAX 100
 
-    printf("enter the number of states in DFA :");
-    scanf("%d",&n);
+// Stack for operators
+char stack[MAX];
+int top = -1;
+void dispaly() {
+    for (int i = 0; stack[i]; i++) {
+        printf("%c", stack[i]);
+    }
+    printf("\n");
+}
 
-    printf("enter the number of symbolsin DFA :");
-    scanf("%d",&m);
+void push(char c) { stack[++top] = c; }
+char pop() { return stack[top--]; }
+char peek() { return stack[top]; }
 
-    printf("enter the number of final state :");
-    scanf("%d",&t1);
+int precedence(char op) {
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
 
+
+int tempCount = 1;
+void infixToPostfix(char *infix, char *postfix) {
+    int k = 0;
+    for (int i = 0; infix[i]; i++) {
+        if (isalnum(infix[i])) {
+            postfix[k++] = infix[i];
+        } else if (infix[i] == '(') {
+            push('(');
+        } else if (infix[i] == ')') {
+            while (top != -1 && peek() != '(') postfix[k++] = pop();
+            pop();
+        } else {
+            while (top != -1 && precedence(peek()) >= precedence(infix[i])) postfix[k++] = pop();
+            push(infix[i]);
+        }
+    }
+    while (top != -1) postfix[k++] = pop();
+    postfix[k] = '\0';
+}
+
+
+void generateTAC(char *postfix, char *lhs) {
+    char stack2[MAX][10];
+    int t2 = -1;
+    char buf[10];
+
+    printf("\nThree Address Code (TAC):\n");
     
-    printf("enter the final states");
-    while (t1--) {
-        scanf("%d",&t2);
-        final[t2]=1;
-    }
+    for (int i = 0; postfix[i]; i++) {
+        if (isalnum(postfix[i])) 
+            sprintf(stack2[++t2], "%c", postfix[i]);
+        else 
+            char b[10], a[10], res[10];
+        strcpy(b, stack2[t2--]);
+        strcpy(a, stack2[t2--]);
+        sprintf(res, "t%d", tempCount++);
 
-    printf("enter the transitions\n :");
-    for (int i=0;i<n;i++) {
-        for (int a=0;a<m;a++) {
-            printf("transi(%d,%d)-> : ",i,a);
-            scanf("%d",&DFA[i][a]);
-        }
+        printf("%s = %s %c %s\n", res, a, postfix[i], b);
+
+        strcpy(stack2[++t2], res);
     }
+    printf("%c = %s\n", lhs, stack2[t2]);
+}
+
+int main() {
+    char expr[100], rhs[100], postfix[100];
+    char lhs;
+
+    printf("Enter expression (eg, a = b + c * d):");
+    scanf("%s", expr);
+
+    printf("\n %s \n", expr);
+
+    lhs = expr[0];
+    strcpy(rhs, exp + 2);
     
-}
-
-void fillmark() {
-    for(int i = 0; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            if (final[i] != final[j]) mark[i][j] = 1;
-        }
-    }
-
-    int change = 1;
-    while (change) {
-        change = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (!mark[i][j]) {
-                    for (int k = 0; k < m; k++) {
-                        int a = DFA[i][k];
-                        int b = DFA[j][k];
-
-                        if (a == b) continue;
-                        if (a < b) {int t = a; a = b; b = t;}
-                        if (mark[a][b] == 1) {
-                            mark[i][j] = 1;
-                            change = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    printf("\n %s  \n", rhs);
     
-    printf("Equivalent states:\n"); 
+    printf("\n %c  \n", lhs);
 
-    for (int i = 0; i < n; i++) { 
-        for (int j = 0; j < i; j++) { 
-            if (mark[i][j] != 1) printf("State %d and %d are equivalent.\n", i, j); 
-        }
-    }
-}
+    infixToPostfix(rhs, postfix);
 
-void newtrans() {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < i; j++) {
-            if (mark[i][j] != 1) rep[i] = rep[j];
-        }
-    }
-}
-
-void prin() {
-    for (int i = 0; i < n; i++) {
-        if (rep[i] == i) {
-            printf("states {");
-            for (int j = 0; j < n; j++) {
-                if (rep[j] == i) printf("q%d,",j);
-            }
-            printf("} = ");
-            for (int a = 0; a < m; a++) {
-                printf("| %d -> $d", a, rep[DFA[i][a]]);
-            }
-            printf("\n");
-        }
-    }
-}
+    printf("\nPostfix: %s\n", postfix);
+    generateTAC(postfix, lhs);
 
 
-int main(){
-    accept();
-    fillmark();
-    newtrans();
-    prin();
 }

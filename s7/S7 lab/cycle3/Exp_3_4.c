@@ -15,7 +15,7 @@ struct Statement {
 };
 
 int main() {
-    int n, i, j;
+    int n, i;
     struct Statement stmts[MAX];
     int constTable[26]; // store constant values for variables
     int knownConst[26]; // 1 if variable has a known constant
@@ -30,13 +30,12 @@ int main() {
 
     printf("Enter statements (e.g., a = 5 OR b = a + 3):\n");
     for (i = 0; i < n; i++) {
-        char lhs, eq, rhs1, rhs2, op;
+        char lhs;
         char buffer[20];
 
         scanf(" %[^\n]", buffer);
 
         lhs = buffer[0];
-        eq = buffer[2];
 
         if (isdigit(buffer[4])) {
             // form: a = 5
@@ -80,7 +79,7 @@ int main() {
             }
         } else {
             // Expression: a = b + c
-            int const1 = 0, const2 = 0, val1, val2;
+            int const1 = 0, const2 = 0, val1, val2; 
             if (isalpha(stmts[i].rhs1) && knownConst[stmts[i].rhs1 - 'a']) {
                 const1 = 1;
                 val1 = constTable[stmts[i].rhs1 - 'a'];
