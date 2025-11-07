@@ -32,15 +32,15 @@ void reduce() {
 	int f=1;
 	while(f) {
 		f=0;
-		for(int k = 0;k < n;k++) {
+		for(int k = 0; k < n; k++) {
 			char lhs = grammar[k][0];
 			char *rhs = grammar[k]+3;
 			int len = strlen(rhs);
 			if(top+1 >= len) {
-				int match= 1,t=top-len+1;
+				int match= 1,t = top-len+1;
 				for (int m=0;m<len;m++) {
 					if (stack[t+m] != rhs[m]) {
-						match=0;
+						match = 0;
 						break;
 					}
 				}

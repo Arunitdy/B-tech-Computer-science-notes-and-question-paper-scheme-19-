@@ -50,21 +50,21 @@ void infixToPostfix(char* infix, char* postfix) {
 char generate(char a, char b, char op) {
     char res = tempVar++;
 
-        if (a == '\0' && op == '-') { // Unary 
-            printf("%c = -%c\n", res, b);
-            printf("\n \n");
-            printf("MOV AX, %c\n", b);
-            printf("NEG AX\n");
-            printf("MOV %c, AX\n", res);
-            return res;
-        }
-         printf("\n \n");
-            printf("%c = %c %c %c\n", res, a, op, b);  //tac
-    
-            printf("\n \n");
-        if (a == '\0' || b == '\0') {
-            printf("\n invalid \n");
-        } else if (op == '+') {
+    if (a == '\0' && op == '-') { // Unary 
+        printf("%c = -%c\n", res, b);
+        printf("\n \n");
+        printf("MOV AX, %c\n", b);
+        printf("NEG AX\n");
+        printf("MOV %c, AX\n", res);
+        return res;
+    }
+        printf("\n \n");
+        printf("%c = %c %c %c\n", res, a, op, b);  //tac
+
+        printf("\n \n");
+    if (a == '\0' || b == '\0') {
+        printf("\n invalid \n");
+    } else if (op == '+') {
         printf("MOV AX, %c\n", a);
         printf("ADD AX, %c\n", b);
         printf("MOV %c, AX\n", res);
@@ -83,6 +83,7 @@ char generate(char a, char b, char op) {
     }
     return res;
 }
+
 
 int main() {
     char expr[100], postfix[100];

@@ -56,7 +56,6 @@ void infixToPostfix(char* infix, char* postfix) {
 void generateTAC(char* postfix, char lhs) {
     char stack2[MAX][10];
     int t2 = -1;
-    char buf[10];
 
     printf("\nThree Address Code (TAC):\n");
 
