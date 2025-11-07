@@ -3,6 +3,7 @@
 int DFA[10][10],rep[10];
 int n,m,final[10];
 int mark[10][10]={0};
+
 void accept () {
     int t1,t2;
 
@@ -14,9 +15,9 @@ void accept () {
 
     printf("enter the number of final state :");
     scanf("%d",&t1);
-
     
     printf("enter the final states");
+    
     while (t1--) {
         scanf("%d",&t2);
         final[t2]=1;

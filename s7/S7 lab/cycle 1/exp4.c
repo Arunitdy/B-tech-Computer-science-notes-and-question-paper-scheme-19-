@@ -38,13 +38,13 @@ void accept() {
 
 }
 
-void conv(){
+void conv() {
     int q[1<<N],f=-1,r=-1;
     q[r++]=1<<start,vis[1<<start]=1;
 
-    while(f<r){
+    while(f<r) {
         int s=q[f++];
-        for(int a=0;a<m;a++){
+        for(int a=0;a<m;a++) {
             int ns=0;
             for(int i=0;i<n;i++){
                 if(s&(1<<i)){
