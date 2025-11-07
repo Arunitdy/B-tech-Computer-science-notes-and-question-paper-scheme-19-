@@ -12,10 +12,10 @@ void push(char c)
 }
 void pop(int l)
 {
+	
 	top-=l;
 }
-void printstack()
-{
+void printstack() {
 	int j;
 	for(j=0;j<=top;j++)
 		printf("%c",stack[j]);
@@ -68,8 +68,7 @@ int main() {
 	printf("Enter the input string");
 	scanf("%s",input);
 	printf("\nStack\tInput\tAction\n");
-	while(ip < strlen(input))
-	{
+	while(ip < strlen(input)) {
 		push(input[ip]);
 		ip++;
 		printstack();
@@ -79,8 +78,7 @@ int main() {
 		reduce();
 		printf("\n");
 	}
-	if(top==0 && stack[top]==grammar[0][0] && ip==strlen(input))
-	{
+	if(top==0 && stack[top]==grammar[0][0] && ip==strlen(input)) {
 		printf("\nAccepted");
 	}
 	else
