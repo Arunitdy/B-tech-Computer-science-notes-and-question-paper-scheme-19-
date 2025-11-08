@@ -1,64 +1,43 @@
 #include <stdio.h>
-int m, n, t;
-char q[10], NFA[10][10][10], DFA[1<<10][10], vis[1<<10];
-int start;
+
+int n, m, start;
+int NFA[10][10][10], DFA[1<<10][10] q[1<<10], vis[1<<10];
 
 void accept() {
-    printf("Enter the number of states:");
-    scanf("%d", &n);
+    printf("enter the number of states :");
+    scanf("%d",&n);
 
-    printf("Enter the number of symbols:");
-    scnaf("%d", &m);
+    printf("enter the number of input symbols :");
+    scanf("%d",&m);
 
-    printf("Enter the number of trancition:");
-    scanf("%d", &t);
-    
-    int from, to, sym;
+    printf("enter the start state :");
+    scanf("%d",&start);
 
-    for (int i = 0; i < t; i++) {
-        scanf("%d %d %d", &from, &sym, &to);
-        NFA[from][sym][to] ;
+    int tem1,tem2,a,b,c;
+    printf("enter the number of final state :");
+    scanf("%d",&tem1);
+
+
+    printf("enter the number of transition :");
+    scanf("%d",&tem1);
+
+    printf("enter the transitions in the format from - sym - to \n");
+    while(tem1--){
+        scanf("%d %d %d",&a,&b,&c);
+        NFA[a][b][c]=1;
     }
 }
-void DFA() {
-    int r = -1, f = -1;
-    q[r++] = 1 << start;
+
+void con () {
+    int f = -1, r = -1;
     vis[1<<start] = 1;
-
-    while (f < r) {
-        s = q[f++];
-        for (int a = 0; a < m; a++) {
-            int ns = 0;
-            for (int i = 0; i < n; i++) {
-                if (s & (1<<i)) {
-                    for (int j = 0; j < n; j++) {
-                        if (NFA[i][a][j]) ns |= (1 << j);
-                    }
-                }
-            }
-            DFS[s][a] = ns;
-            if (!vis[ns]) {
-                vis[ns] = 1;
-                q[r++] = ns;
-            }
-        }
-    }
-}
-void prin(int s) {
-    for (int i = 0; i < n; i++) if (s & (1<<i)) printf("q%d ", i);
+    
 }
 
-void display() {
-    for (int i = 0; i <(1<<10); i++) {
-        if (vis[s]) {
-            prin(s);
-            for (int a = 0; a < m; a++) {
-                printf("a");
-                prin(DFS[s][a]);
-            }
-        }
-    }
-}
+
+
+
+
 int main() {
-    accept();
+
 }

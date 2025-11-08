@@ -20,13 +20,8 @@ void accept() {
     printf("enter the number of final state :");
     scanf("%d",&tem1);
 
-    printf("enter the final states : \n");
-    while(tem1--){
-        scanf("%d",&tem2);
-        final[tem2]=1;
-    }
 
-     printf("enter the number of transition :");
+    printf("enter the number of transition :");
     scanf("%d",&tem1);
 
     printf("enter the transitions in the format from - sym - to \n");
