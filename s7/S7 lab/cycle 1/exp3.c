@@ -1,4 +1,4 @@
-#include<stdio.h>
+ #include<stdio.h>
 
 int NFA[10][10][10],newNFA[10][10][10],epsi[10][10];
 
@@ -15,7 +15,7 @@ void accept() {
 
     printf("enter the number of symbols : ");
     scanf("%d",&m);
-    int t1,t2,from,to,sym;
+    int t1,from,to,sym;
     printf("enter the number of transitions : ");
     scanf("%d",&t1);
 
@@ -35,7 +35,6 @@ void DFS(int s) {
     for (int i = 0; i < n; i++) {
         if(epsi[s][i] == 1 && !vis[i])
             DFS(i);
-        
     }
 }
 void closure(){
@@ -64,8 +63,8 @@ void closure(){
 void conv(){
     for(int s=0;s<n;s++){
         for(int a=0;a<m;a++){
-            for(int i=0;i<element[s].count;i++){
-                int q=element[s].closure[i];
+            for(int i = 0;i<element[s].count;i++){
+                int q = element[s].closure[i];
                 for(int j=0;j<n;j++){
                     if(NFA[q][a][j]){
                         for(int l=0;l<element[j].count;l++){

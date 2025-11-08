@@ -40,7 +40,7 @@ void accept() {
 
 void conv() {
     int q[1<<N],f=-1,r=-1;
-    q[r++]=1<<start,vis[1<<start]=1;
+    q[r++]=1<<start, vis[1<<start]=1;
 
     while(f<r) {
         int s=q[f++];
@@ -70,8 +70,9 @@ void prin(int s){
         if(s &(1<<i)) printf("q%d ",i);
 
     printf("}");
-    
 }
+
+
 void disp(){
     for(int s=0;s<(1<<N);s++){
         if(vis[s]){
