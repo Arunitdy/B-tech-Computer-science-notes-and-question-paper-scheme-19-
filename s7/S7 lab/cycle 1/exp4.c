@@ -5,7 +5,7 @@
 #define M 10
 
 
-int NFA[N][M][N], DFA[1<<N][M], vis[1<<N], final[N];
+int NFA[N][M][N], DFA[1<<N][M], vis[1<<N];
 int n, m, start;
 
 
@@ -46,7 +46,7 @@ void conv() {
                     }
                 }
             }
-            
+
             DFA[s][a] = ns;
             if (ns && !vis[ns]) {
                 vis[ns] = 1;
