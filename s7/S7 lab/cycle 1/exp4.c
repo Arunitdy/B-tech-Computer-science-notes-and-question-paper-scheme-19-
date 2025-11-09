@@ -4,8 +4,8 @@
 #define M 10
 
 int NFA[N][M][N],DFA[1<<N][M],vis[1<<N],final[N];
-
 int n,m,start;
+
 void accept() {
     printf("enter the number of states :");
     scanf("%d",&n);
@@ -16,10 +16,7 @@ void accept() {
     printf("enter the start state :");
     scanf("%d",&start);
 
-    int tem1,tem2,a,b,c;
-    printf("enter the number of final state :");
-    scanf("%d",&tem1);
-
+    int tem1, a, b, c;
 
     printf("enter the number of transition :");
     scanf("%d",&tem1);
@@ -29,8 +26,6 @@ void accept() {
         scanf("%d %d %d",&a,&b,&c);
         NFA[a][b][c]=1;
     }
-
-
 }
 
 void conv() {

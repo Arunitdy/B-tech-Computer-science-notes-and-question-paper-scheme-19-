@@ -28,11 +28,6 @@ void accept() {
     }
 }
 
-void con () {
-    int f = -1, r = -1;
-    vis[1<<start] = 1;
-    
-}
 
 
 

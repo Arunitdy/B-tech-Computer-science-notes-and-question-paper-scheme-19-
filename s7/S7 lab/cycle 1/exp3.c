@@ -37,7 +37,7 @@ void DFS(int s) {
             DFS(i);
     }
 }
-void closure(){
+void closure() {
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++)
             vis[j]=0;
@@ -60,14 +60,15 @@ void closure(){
     }
 }
 
-void conv(){
-    for(int s=0;s<n;s++){
-        for(int a=0;a<m;a++){
-            for(int i = 0;i<element[s].count;i++){
+
+void conv() {
+    for (int s=0;s<n;s++) {
+        for (int a=0;a<m;a++) {
+            for (int i = 0;i<element[s].count;i++) {
                 int q = element[s].closure[i];
-                for(int j=0;j<n;j++){
-                    if(NFA[q][a][j]){
-                        for(int l=0;l<element[j].count;l++){
+                for (int j=0;j<n;j++) {
+                    if (NFA[q][a][j]) {
+                        for (int l=0;l<element[j].count;l++) {
                             newNFA[s][a][element[j].closure[l]]=1;
                         }
                     }
@@ -77,13 +78,13 @@ void conv(){
     }
 }
 
-void prin(){
 
-    for(int s=0;s<n;s++){
+void prin() {
+    for (int s=0;s<n;s++){
         printf(" q%d ->  ",s);
-        for(int a=0;a<m;a++){
+        for (int a=0;a<m;a++){
             printf(" | %d -> {",a);
-            for(int j=0;j<n;j++){
+            for (int j=0;j<n;j++){
                 if(newNFA[s][a][j])
                     printf(" q%d ,",j);
             }
@@ -92,7 +93,7 @@ void prin(){
         printf("\n");
     }
 }
-int main(){
+int main() {
 
     accept();
     closure();
