@@ -24,7 +24,7 @@ void accept() {
     printf("enter the transitions in the format from - sym - to \n");
     while(tem1--){
         scanf("%d %d %d",&a,&b,&c);
-        NFA[a][b][c]=1;
+        NFA[a][b][c] = 1;
     }
 }
 

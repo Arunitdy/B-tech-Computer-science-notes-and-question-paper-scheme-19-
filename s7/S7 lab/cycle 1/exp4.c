@@ -1,35 +1,38 @@
 #include<stdio.h>
 
+
 #define N 10
 #define M 10
 
-int NFA[N][M][N],DFA[1<<N][M],vis[1<<N],final[N];
-int n,m,start;
+
+int NFA[N][M][N], DFA[1<<N][M], vis[1<<N], final[N];
+int n, m, start;
+
 
 void accept() {
     printf("enter the number of states :");
-    scanf("%d",&n);
+    scanf("%d", &n);
 
     printf("enter the number of input symbols :");
-    scanf("%d",&m);
+    scanf("%d", &m);
 
     printf("enter the start state :");
-    scanf("%d",&start);
+    scanf("%d", &start);
 
     int tem1, a, b, c;
 
     printf("enter the number of transition :");
-    scanf("%d",&tem1);
+    scanf("%d", &tem1);
 
     printf("enter the transitions in the format from - sym - to \n");
-    while(tem1--){
-        scanf("%d %d %d",&a,&b,&c);
-        NFA[a][b][c]=1;
+    while(tem1--) {
+        scanf("%d %d %d", &a, &b, &c);
+        NFA[a][b][c] = 1;
     }
 }
 
 void conv() {
-    int q[1<<N], f=-1, r=-1;
+    int q[1<<N], f = -1, r = -1;
     q[r++] = 1<<start, vis[1<<start] = 1;
 
     while (f < r) {
@@ -43,8 +46,9 @@ void conv() {
                     }
                 }
             }
+            
             DFA[s][a] = ns;
-            if(ns && !vis[ns]){
+            if (ns && !vis[ns]) {
                 vis[ns] = 1;
                 q[r++] = ns;
             }
