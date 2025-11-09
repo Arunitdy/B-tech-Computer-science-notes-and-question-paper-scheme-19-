@@ -1,7 +1,10 @@
-#include <stdio.h>
+#include<stdio.h>
 
-int n, m, start;
-int NFA[10][10][10], DFA[1<<10][10] q[1<<10], vis[1<<10];
+#define N 10
+#define M 10
+
+int NFA[N][M][N],DFA[1<<N][M],vis[1<<N],final[N];
+int n,m,start;
 
 void accept() {
     printf("enter the number of states :");
@@ -13,10 +16,7 @@ void accept() {
     printf("enter the start state :");
     scanf("%d",&start);
 
-    int tem1,tem2,a,b,c;
-    printf("enter the number of final state :");
-    scanf("%d",&tem1);
-
+    int tem1, a, b, c;
 
     printf("enter the number of transition :");
     scanf("%d",&tem1);
@@ -29,52 +29,27 @@ void accept() {
 }
 
 void con() {
-    int f = -1, r = -1;
-    q[r++] = 1<<start;
-    vis[1<<start] = 1;
+    int que[1 << n], r = -1,  f = -1;
+    
+    que[r++] = 1<<start;
 
-    while(f < r) {
-        int s = q[f++];
-
-        for (int a = 0; a < m; a++) {
+    while (f < r) {
+        int s = que[f++];
+        for (int a = 0 ; a < n; a++) {
             int ns = 0;
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < 1<<n; i++) {
                 if (s & (1<<i)) {
-                    for (int j = 0; j < n; j++) {
-                        if (NFA[i][a][j]) {
-                            ns |= (1<<j);
-                        }
+                    for (int k = 0; k < n; k++) {
+                        if (nfa[i][a][j]) ns |= i<<k;
                     }
                 }
             }
 
-            DFS[s][a] = ns;
-            if (ns && !vis[ns]) {
+            dfs[ns] = 1;
+            if (vis[i] && ns) {
                 vis[ns] = 1;
-                q[r++] = ns;
+                g[r++] = ns
             }
         }
     }
-}
-
-
-void prin(int s) {
-    for (int i = 0; i < n; i++) {
-        if (s & (1<<i)) printf("%dq", i);
-    }
-}
-
-void displai() {
-    for (int s = 0; s < 1<<n; s++) {
-       if (vis[s]){     prin(s);
-            for (int a = 0; a < m; a++) {
-                printf("a"); prin(dfa[s][a]);
-            }}
-    }
-}
-
-
-
-int main() {
-
 }

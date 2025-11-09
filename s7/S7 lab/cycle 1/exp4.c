@@ -29,26 +29,24 @@ void accept() {
 }
 
 void conv() {
-    int q[1<<N],f=-1,r=-1;
-    q[r++]=1<<start, vis[1<<start]=1;
+    int q[1<<N], f=-1, r=-1;
+    q[r++] = 1<<start, vis[1<<start] = 1;
 
-    while(f<r) {
-        int s=q[f++];
-        for(int a=0;a<m;a++) {
-            int ns=0;
-            for(int i=0;i<n;i++){
-                if(s&(1<<i)){
-                    for(int j=0;j<n;j++){
-                        if(NFA[i][a][j]){
-                            ns|=(1<<j);
-                        }
+    while (f < r) {
+        int s = q[f++];
+        for (int a = 0; a < m; a++) {
+            int ns = 0;
+            for (int i = 0; i < n; i++) {
+                if (s&(1<<i)) {
+                    for (int j = 0; j < n; j++) {
+                        if (NFA[i][a][j])  ns |= (1<<j);
                     }
                 }
             }
-            DFA[s][a]=ns;
+            DFA[s][a] = ns;
             if(ns && !vis[ns]){
-                vis[ns]=1;
-                q[r++]=ns;
+                vis[ns] = 1;
+                q[r++] = ns;
             }
         }
     }
