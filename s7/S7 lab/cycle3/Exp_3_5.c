@@ -76,6 +76,7 @@ void generateTAC(char* postfix, char lhs) {
     printf("%c = %s\n", lhs, stack2[t2]);
 }
 
+
 int main() {
     char expr[100], rhs[100], postfix[100];
     char lhs;
@@ -86,10 +87,8 @@ int main() {
 
     lhs = expr[0];              // left-hand side variable
     strcpy(rhs, expr + 2);      // right-hand side expression
-
     
     printf("\n %s  \n", rhs);
-    
     printf("\n %c  \n", lhs);
 
     infixToPostfix(rhs, postfix);

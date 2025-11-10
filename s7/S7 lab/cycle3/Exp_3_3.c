@@ -37,8 +37,8 @@ void reduce() {
 			char *rhs = grammar[k]+3;
 			int len = strlen(rhs);
 			if (top+1 >= len) {
-				int match= 1,t = top-len+1;
-				for (int m=0;m<len;m++) {
+				int match= 1, t = top-len+1;
+				for (int m = 0; m < len; m++) {
 					if (stack[t+m] != rhs[m]) {
 						match = 0;
 						break;
@@ -47,8 +47,8 @@ void reduce() {
 				if (match) {
 					pop(len);
 					push(lhs);
-					printf("\tReduce %c->%s\n\t\t",lhs,rhs);
-					f=1;
+					printf("\tReduce %c->%s\n\t\t", lhs, rhs);
+					f = 1;
 					break;
 				}
 			}

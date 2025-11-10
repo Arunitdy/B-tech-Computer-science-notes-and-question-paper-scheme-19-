@@ -36,7 +36,7 @@ void fillmark() {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < i; j++) {
             if (final[i] != final[j]) {
-                mark[i][j] = 1;
+                mark[i][j] = 1; 
             }
         }
     }
