@@ -1,0 +1,6 @@
+1. What are the requirements of mutual exclusion algorithms?
+2. What are the performance evaluation metrics of a mutual exclusion algorithm?
+3. Discuss how quroum based algorithm differ from other categoris of mutual exclusion algorithms.
+4. Discuss the different types of messages required for handling deadlocks in Meakawa's algorithm.
+5. Explain with example, how wait-for-graphs can be used in deadlock detection.
+
